@@ -49,6 +49,7 @@ for network in network_list:
     plt.plot(t_values_base, r_values_base, alpha=0.6, linewidth=0.1, label="$\epsilon=0$")
     plt.plot(t_values_pos, r_values_pos, alpha=0.6, linewidth=0.1, label="$\epsilon=0.05$")
     plt.plot(t_values_neg, r_values_neg, alpha=0.6, linewidth=0.1, label="$\epsilon=-0.05$")
+    plt.title(f"{network[:-4]}")
     plt.xlabel("Time $t$")
     plt.ylabel("Order Parameter $r$")
     plt.ylim(0,1)
