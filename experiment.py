@@ -37,12 +37,12 @@ for network in network_list:
         print(out)
 
     # 結果を読み込む
-    r_values_base = np.loadtxt(f"r_values_{network[:-4]}_eps={attack_eps[0]}_seed={seed}.txt")
-    t_values_base = np.loadtxt(f"t_values_{network[:-4]}_eps={attack_eps[0]}_seed={seed}.txt")
-    r_values_pos = np.loadtxt(f"r_values_{network[:-4]}_eps={attack_eps[1]}_seed={seed}.txt")
-    t_values_pos = np.loadtxt(f"t_values_{network[:-4]}_eps={attack_eps[1]}_seed={seed}.txt")
-    r_values_neg = np.loadtxt(f"r_values_{network[:-4]}_eps={attack_eps[2]}_seed={seed}.txt")
-    t_values_neg = np.loadtxt(f"t_values_{network[:-4]}_eps={attack_eps[2]}_seed={seed}.txt")
+    r_values_base = np.loadtxt(f"results/r_values_{network[:-4]}_eps={attack_eps[0]}_seed={seed}.txt")
+    t_values_base = np.loadtxt(f"results/t_values_{network[:-4]}_eps={attack_eps[0]}_seed={seed}.txt")
+    r_values_pos = np.loadtxt(f"results/r_values_{network[:-4]}_eps={attack_eps[1]}_seed={seed}.txt")
+    t_values_pos = np.loadtxt(f"results/t_values_{network[:-4]}_eps={attack_eps[1]}_seed={seed}.txt")
+    r_values_neg = np.loadtxt(f"results/r_values_{network[:-4]}_eps={attack_eps[2]}_seed={seed}.txt")
+    t_values_neg = np.loadtxt(f"results/t_values_{network[:-4]}_eps={attack_eps[2]}_seed={seed}.txt")
     
     # 結果をプロット
     plt.figure(figsize=(8, 4))
