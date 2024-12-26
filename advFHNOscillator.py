@@ -17,8 +17,10 @@ parser.add_argument('--tmax', type=float, default=10000, help='maximum simulatio
 parser.add_argument('--dt', type=float, default=0.5, help='size of dt')
 parser.add_argument('--t_interval', type=float, default=1.0, help='perturbation interval')
 parser.add_argument('--attack_eps', type=float, default=0.05, help='strength of perturbation')
-parser.add_argument('--random', action="store_true", help='perform random attacks with strength eps')
 parser.add_argument('--seed', type=int, default=128, help='random seed for reproducibility')
+parser.add_argument('--random', action="store_true", help='perform random attacks with strength eps')
+parser.add_argument('--save_path', type=str, default="results", help='save path of results')
+parser.add_argument('--export_t', action="store_true", help='export r values')
 args = parser.parse_args()
 
 # Kuramoto model
@@ -125,7 +127,7 @@ if __name__ == "__main__":
     t_values, r_values = run_fhn_simulation(X0, A, B, attack_eps=args.attack_eps, dt=args.dt)
 
     # save result
-    os.makedirs("results", exist_ok=True)
-    np.savetxt(f"results/t_values_{args.network[:-4]}_eps={args.attack_eps}_seed={args.seed}.txt", t_values)
-    np.savetxt(f"results/r_values_{args.network[:-4]}_eps={args.attack_eps}_seed={args.seed}.txt", r_values)
+    np.savetxt(f"{args.save_path}/r_values_{args.network[:-4]}_eps={args.attack_eps}_seed={args.seed}_random={args.random}.txt", r_values)
+    if args.export_t:
+        np.savetxt(f"{args.save_path}/t_values.txt", t_values)
     
