@@ -17,6 +17,7 @@ parser.add_argument('--tmax', type=float, default=10000, help='maximum simulatio
 parser.add_argument('--dt', type=float, default=0.5, help='size of dt')
 parser.add_argument('--t_interval', type=float, default=1.0, help='perturbation interval')
 parser.add_argument('--attack_eps', type=float, default=0.05, help='strength of perturbation')
+parser.add_argument('--random', action="store_true", help='perform random attacks with strength eps')
 parser.add_argument('--seed', type=int, default=128, help='random seed for reproducibility')
 args = parser.parse_args()
 
@@ -71,22 +72,27 @@ def run_fhn_simulation(X0, A, B, attack_eps, dt=0.05):
 
         # add perturbation
         if t_end < args.tmax:
-            # dr/dgeophi
-            geo_phi = np.arctan2(v, u)
-            psi = np.angle(np.mean(np.exp(1j * geo_phi)))
-            dr_dgeophi = np.sin(psi - geo_phi)
+            if args.random:
+                u = u + np.random.choice([-attack_eps, attack_eps], size=len(u))
+                v = v + np.random.choice([-attack_eps, attack_eps], size=len(v))
+            else:
+                # dr/dgeophi
+                geo_phi = np.arctan2(v, u)
+                psi = np.angle(np.mean(np.exp(1j * geo_phi)))
+                dr_dgeophi = np.sin(psi - geo_phi)
 
-            # dr/du
-            dgeophi_du = -v / (u**2 + v**2)
-            dr_du = dr_dgeophi * dgeophi_du
-            
-            # dr/dv
-            dgeophi_dv = u / (u**2 + v**2)
-            dr_dv = dr_dgeophi * dgeophi_dv
+                # dr/du
+                dgeophi_du = -v / (u**2 + v**2)
+                dr_du = dr_dgeophi * dgeophi_du
+                
+                # dr/dv
+                dgeophi_dv = u / (u**2 + v**2)
+                dr_dv = dr_dgeophi * dgeophi_dv
 
-            # add perturbation
-            u = u + attack_eps * np.sign(dr_du)
-            v = v + attack_eps * np.sign(dr_dv)
+                # add perturbation
+                u = u + attack_eps * np.sign(dr_du)
+                v = v + attack_eps * np.sign(dr_dv)
+
             uv_current[:args.N] = u
             uv_current[args.N:] = v
             #theta_current = theta_current + attack_eps * np.sign(np.sin(psi - theta_current))

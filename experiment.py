@@ -10,6 +10,7 @@ tmax = 10000
 dt = 0.5
 t_interval = 1.0
 seed = 128
+random = True
 
 os.makedirs("results", exist_ok=True)
 
@@ -29,7 +30,8 @@ for network in network_list:
                     "--dt", f"{dt}",
                     "--t_interval", f"{t_interval}",
                     "--attack_eps", f"{e}",
-                    "--seed", f"{seed}"
+                    "--seed", f"{seed}",
+                    "--random" if random else ""
                 ]
             ],
             text=True, capture_output=True, check=True
