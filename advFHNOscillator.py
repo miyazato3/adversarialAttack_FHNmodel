@@ -8,7 +8,7 @@ import os
 
 #### Parameters #############
 parser = argparse.ArgumentParser()
-parser.add_argument('--network', type=str, default="ws_p=0.txt", help='file name of network')
+parser.add_argument('--network', type=str, default="WSp=0.txt", help='file name of network')
 parser.add_argument('--N', type=int, default=90, help='num of FHN oscillator')
 parser.add_argument('--sigma', type=float, default=0.0506, help='FHN model parameter')
 parser.add_argument('--epsilon', type=float, default=0.05, help='FHN model parameter')
@@ -97,15 +97,20 @@ def run_fhn_simulation(X0, A, B, attack_eps, dt=0.05):
 
             uv_current[:args.N] = u
             uv_current[args.N:] = v
-            #theta_current = theta_current + attack_eps * np.sign(np.sin(psi - theta_current))
 
         t_current = t_end
         t_values.append(t_current)
     
         # compute order parameter
-        geo_phase = np.arctan2(v, u)
-        r = np.abs(np.mean(np.exp(1j * geo_phase)))
-        r_values.append(r)
+        for i in range(sol.y.shape[1]):
+            u_i = sol.y[:args.N, i]
+            v_i = sol.y[args.N:, i]
+            geo_phase = np.arctan2(v_i, u_i)
+            r_i = np.abs(np.mean(np.exp(1j * geo_phase)))
+            r_values.append(r_i)
+        #geo_phase = np.arctan2(v, u)
+        #r = np.abs(np.mean(np.exp(1j * geo_phase)))
+        #r_values.append(r)
     
     return t_values, r_values
 

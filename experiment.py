@@ -6,7 +6,7 @@ import os
 
 # パラメータ設定
 #network_list = ["WSp=0.txt", "WSp=0.006.txt", "WSp=0.232.txt", "WSp=1.txt", "FRACTAL.txt"]
-network_list = ["WSp=0.txt", "WSp=0.006.txt"]
+network_list = ["WSp=0.006.txt"]
 attack_eps = [0.0, 0.05, -0.05]
 tmax = 10000
 dt = 0.5
@@ -49,7 +49,7 @@ for i, network in enumerate(network_list):
     r_values_base = np.loadtxt(f"{save_path}/r_values_{network[:-4]}_eps={attack_eps[0]}_seed={seed}_random={random}.txt")
     r_values_pos = np.loadtxt(f"{save_path}/r_values_{network[:-4]}_eps={attack_eps[1]}_seed={seed}_random={random}.txt")
     r_values_neg = np.loadtxt(f"{save_path}/r_values_{network[:-4]}_eps={attack_eps[2]}_seed={seed}_random={random}.txt")
-    t_values = np.loadtxt(f"{save_path}/t_values.txt")
+    t_values = np.arange(0, tmax, dt)
     
     # 結果をプロット
     plt.figure(figsize=(8, 4))
